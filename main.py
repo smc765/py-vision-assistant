@@ -15,7 +15,16 @@ def main():
     # parse command line arguments
     open_in_browser = False
     for i in range(1, len(sys.argv)):
-        if sys.argv[i] == '-p' or sys.argv[i] == '--system-prompt':
+        if sys.argv[i] == '-h' or sys.argv[i] == '--help':
+            print(f'''Usage: {os.path.basename(sys.argv[0])} [options]
+Options:
+    -h, --help                    Show this help message and exit
+    -m, --max-completion-tokens   Set max_completion_tokens
+    -p, --system-prompt           Set system prompt
+    -b, --open-in-browser         Open response in browser'''
+            )
+            return
+        elif sys.argv[i] == '-p' or sys.argv[i] == '--system-prompt':
             client.sys_prompt = sys.argv[i + 1]
         elif sys.argv[i] == '-m' or sys.argv[i] == '--max-completion-tokens':
             client.max_completion_tokens = int(sys.argv[i + 1])
@@ -57,7 +66,7 @@ Select an option (0-6): '''
                 fpath = filedialog.askopenfilename()
                 root.destroy()
                 if os.path.isfile(fpath):
-                    print(f'File selected: {fpath}')
+                    print(f'File chosen: {fpath}')
                     response = client.create_completion(image_path=fpath)
                 else:
                     print(f'File not found')
