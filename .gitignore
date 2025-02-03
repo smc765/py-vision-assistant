@@ -1,0 +1,10 @@
+.env
+*.log
+/__pycache__
+/.vscode
+response.html
+out.png
+/build
+/dist
+*.spec
+test.py

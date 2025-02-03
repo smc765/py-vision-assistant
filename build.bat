@@ -1,0 +1,1 @@
+pyinstaller --clean --onefile --console --add-data=".env:." main.py
