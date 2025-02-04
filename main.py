@@ -3,13 +3,13 @@ import os
 import webbrowser
 import tkinter as tk
 from tkinter import filedialog
-from openai_wrapper import OpenaiWrapper
+from openai_wrapper import Client
 from screenshot import save_screenshot
 
 MENU_WIDTH = 36
 
 def main():
-    client = OpenaiWrapper()
+    client = Client() # initialize OpenAI client
     response = None
 
     # parse command line arguments
@@ -19,21 +19,23 @@ def main():
             print(f'''Usage: {os.path.basename(sys.argv[0])} [options]
 Options:
     -h, --help                    Show this help message and exit
-    -m, --max-completion-tokens   Set max_completion_tokens
+    -t, --max-completion-tokens   Set max_completion_tokens
     -p, --system-prompt           Set system prompt
-    -b, --open-in-browser         Open response in browser'''
+    -b, --open-in-browser         Open response in browser
+    -m, --model                   Set model (default: gpt-4o)'''
             )
             return
         elif sys.argv[i] == '-p' or sys.argv[i] == '--system-prompt':
             client.sys_prompt = sys.argv[i + 1]
-        elif sys.argv[i] == '-m' or sys.argv[i] == '--max-completion-tokens':
+        elif sys.argv[i] == '-t' or sys.argv[i] == '--max-completion-tokens':
             client.max_completion_tokens = int(sys.argv[i + 1])
         elif sys.argv[i] == '-b' or sys.argv[i] == '--open-in-browser':
             open_in_browser = True
+        elif sys.argv[i] == '-m' or sys.argv[i] == '--model':
+            client.model = sys.argv[i + 1]
 
     while True:
-        try:
-            choice = input(f'''{'Menu'.center(MENU_WIDTH, '-')}
+        choice = input(f'''{'Menu'.center(MENU_WIDTH, '-')}
     1) Take a screenshot
     2) Choose image file
     3) Set system prompt
@@ -44,8 +46,6 @@ Options:
 
 Select an option (0-6): '''
         )
-        except KeyboardInterrupt:
-            return
 
         match choice:
             case '0': # Exit
@@ -116,4 +116,7 @@ Select an option (0-6): '''
                 webbrowser.open('response.html')
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        pass

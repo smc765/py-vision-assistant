@@ -1,5 +1,6 @@
 import tkinter as tk
 from PIL import ImageGrab
+import ctypes
 
 class Screenshot:
     def __init__(self, root):
@@ -53,9 +54,11 @@ class Screenshot:
         self.root.destroy()
 
 def save_screenshot(filename='out.png'):
+    ctypes.windll.user32.ShowWindow( ctypes.windll.kernel32.GetConsoleWindow(), 6 ) # Minimize window
     root = tk.Tk()
     app = Screenshot(root)
     root.mainloop()
+    ctypes.windll.user32.ShowWindow( ctypes.windll.kernel32.GetConsoleWindow(), 9 ) # Restore window
     if app.screenshot is None:
         raise ValueError("Screenshot failed")
     app.screenshot.save(filename)

@@ -14,7 +14,7 @@ console_handler = logging.StreamHandler()
 console_handler.setLevel(logging.WARNING)
 logging.basicConfig(level=logging.DEBUG,
                     handlers=[
-                        logging.FileHandler('openai_wrapper.log', mode='w'),
+                        logging.FileHandler('openai.log', mode='w'),
                         console_handler
                     ])
 
@@ -22,7 +22,7 @@ def encode_image(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode("utf-8")
 
-class OpenaiWrapper:
+class Client:
     def __init__(self, max_completion_tokens=DEFAULT_MAX_COMPLETION_TOKENS, sys_prompt=DEFAULT_SYS_PROMPT, model=DEFAULT_MODEL):
         self.max_completion_tokens = max_completion_tokens
         self.sys_prompt = sys_prompt
@@ -52,7 +52,7 @@ class OpenaiWrapper:
         return response.choices[0].message.content
     
 def main():
-    client = OpenaiWrapper(max_completion_tokens=10)
+    client = Client(max_completion_tokens=10)
     print(client.create_completion(txt_prompt='This is a test prompt'))
 
 if __name__ == '__main__':
