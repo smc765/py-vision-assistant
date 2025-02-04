@@ -11,8 +11,9 @@ DEFAULT_MODEL = 'gpt-4o'
 # logging configuration
 logger = logging.getLogger(__name__)
 console_handler = logging.StreamHandler()
-console_handler.setLevel(logging.WARNING)
-logging.basicConfig(level=logging.DEBUG,
+console_handler.setLevel(logging.WARNING) # log only warnings and errors to console
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     handlers=[
                         logging.FileHandler('openai.log', mode='w'),
                         console_handler
@@ -40,6 +41,7 @@ class Client:
         if image_path is not None:
             messages.append({'role': 'user', 'content': [{'type': 'image_url', 'image_url': {'url': f'data:image/jpeg;base64,{encode_image(image_path)}'}}]})
 
+        logger.info(f'Completion: model={self.model}, messages={messages}, max_completion_tokens={self.max_completion_tokens}')
         response = self.client.chat.completions.create(
             model=self.model,
             messages=messages,
@@ -49,6 +51,7 @@ class Client:
         if response.choices[0].finish_reason == 'length':
             logger.warning('The completion was truncated to the maximum token length')
 
+        logger.info(f'Response: {response}')
         return response.choices[0].message.content
     
 def main():

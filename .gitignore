@@ -8,3 +8,4 @@ out.png
 /dist
 *.spec
 test.py
+*.exe
