@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import os
 import base64
 import logging
+from logging.handlers import RotatingFileHandler
 
 DEFAULT_SYS_PROMPT = "You are a helpful assistant"
 DEFAULT_MAX_COMPLETION_TOKENS = 1000
@@ -15,7 +16,7 @@ console_handler.setLevel(logging.WARNING) # log only warnings and errors to cons
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     handlers=[
-                        logging.FileHandler('openai.log', mode='w'),
+                        RotatingFileHandler('openai.log', maxBytes=1000000, backupCount=1), # log to file with rotation
                         console_handler
                     ])
 
