@@ -9,3 +9,4 @@ out.png
 *.spec
 test.py
 *.exe
+/prompts
