@@ -46,13 +46,13 @@ class Client:
             raise ValueError('No prompt provided')
 
         logger.info(f'Completion: model={self.model}, messages={messages}, max_completion_tokens={self.max_completion_tokens}')
+        print('waiting for response...')
 
         try:
             response = self.client.chat.completions.create(
                 model=self.model,
                 messages=messages,
-                max_completion_tokens=self.max_completion_tokens,
-                store=True
+                max_completion_tokens=self.max_completion_tokens
             )
         except Exception as e:
             logger.error(e)

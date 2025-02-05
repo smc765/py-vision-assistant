@@ -6,7 +6,7 @@ from tkinter import filedialog
 from openai_wrapper import Client
 from screenshot import save_screenshot
 
-MENU_WIDTH = 36
+MENU_WIDTH = 64
 
 # returns path of file chosen or empty string if no file was chosen
 def file_dialog(filetypes=[('All files', '*.*')]):
@@ -18,6 +18,7 @@ def file_dialog(filetypes=[('All files', '*.*')]):
     return fpath
 
 def main():
+    print('Initializing OpenAI client...')
     client = Client() # initialize OpenAI client
     response = None
 
@@ -32,9 +33,9 @@ def main():
             print(f'''Usage: {os.path.basename(sys.argv[0])} [options]
 Options:
     -h, --help                    Show this help message and exit
-    -t, --max-completion-tokens   Set max_completion_tokens
-    -p, --system-prompt           Set system prompt
-    -b, --open-in-browser         Open response in browser
+    -t, --max-completion-tokens   Set max_completion_tokens (default: 1000)
+    -p, --system-prompt           Set system prompt from file
+    -b, --open-in-browser         Open responses in browser
     -m, --model                   Set model (default: gpt-4o)'''
             )
             return
@@ -42,6 +43,9 @@ Options:
             if os.path.isfile(fpath := sys.argv[i + 1]):
                 with open(fpath, 'r') as f:
                     client.sys_prompt = f.read()
+            else:
+                print(f'File not found {fpath}')
+                return
         elif sys.argv[i] == '-t' or sys.argv[i] == '--max-completion-tokens':
             client.max_completion_tokens = int(sys.argv[i + 1])
         elif sys.argv[i] == '-b' or sys.argv[i] == '--open-in-browser':
@@ -49,19 +53,18 @@ Options:
         elif sys.argv[i] == '-m' or sys.argv[i] == '--model':
             client.model = sys.argv[i + 1]
 
+    os.system('cls' if os.name == 'nt' else 'clear')
+
     while True:
         choice = input(f'''{'Menu'.center(MENU_WIDTH, '-')}
-    1) Take a screenshot
-    2) Choose image file
-    3) Set system prompt
-    4) Open response in browser
-    5) Set max_completion_tokens (current: {client.max_completion_tokens})
-    6) Send prompt from clipboard
-    7) Set model (current: {client.model})
-    0) Exit
+    1) Take a screenshot          5) Set max_completion_tokens
+    2) Choose image file          6) Send prompt from clipboard
+    3) Set system prompt          7) Set model
+    4) Open response in browser   0) Exit
 
 Select an option (0-7): '''
         )
+        print()
 
         match choice:
             case '0': # Exit
@@ -81,23 +84,24 @@ Select an option (0-7): '''
                     print(f'File chosen: {fpath}')
                     response = client.create_completion(image_path=fpath)
                 else:
-                    print(f'File not found')
+                    print(f'File not found {fpath}')
                     continue
 
             case '3': # Set system prompt
-                print(f'Current system prompt: {client.sys_prompt}')
-                choice = input('1) Load from file\n2) Enter new system prompt\nSelect an option (1-2): ')
+                print(f'Current system prompt: {client.sys_prompt}\n')
+                choice = input('1) Load from file\n2) Enter new system prompt\nSelect an option or press Enter to go back: ')
                 if choice == '1':
                     if os.path.isfile(fpath := file_dialog([('Text files', '*.txt')])):
                         with open(fpath, 'r') as f:
                             client.sys_prompt = f.read()
                     else:
-                        print(f'File not found')
-                        continue
+                        print(f'File not found {fpath}')
                 elif choice == '2':
                     client.sys_prompt = input('Enter new system prompt: ')
-                    
-                print(f'System prompt set to: {client.sys_prompt}')
+                    if client.sys_prompt == '':
+                        client.sys_prompt = None
+                    print(f'System prompt set to: {client.sys_prompt}')
+
                 continue
 
             case '4': # Open response in browser
@@ -106,14 +110,19 @@ Select an option (0-7): '''
                     continue
 
             case '5': # Set max_completion_tokens
+                print(f'Current max_completion_tokens: {client.max_completion_tokens}')
                 while True:
                     try:
-                        client.max_completion_tokens = int(input('Enter new max_completion_tokens: '))
-                        break
+                        max_completion_tokens = input(f'Enter new max_completion_tokens or press Enter to go back: ')
+                        if max_completion_tokens == '':
+                            break
+                        else:
+                            client.max_completion_tokens = int(max_completion_tokens)
+                            print(f'max_completion_tokens set to: {client.max_completion_tokens}')
+                            break
                     except ValueError:
                         print('Invalid input')
                 
-                print(f'max_completion_tokens set to: {client.max_completion_tokens}')
                 continue
 
             case '6': # Send prompt from clipboard
@@ -131,8 +140,14 @@ Select an option (0-7): '''
                 response = client.create_completion(txt_prompt=prompt)
             
             case '7': # Set model
-                client.model = input('Enter new model (ex. gpt-4o): ')
-                print(f'Model set to: {client.model}')
+                print(f'Current model: {client.model}')
+                model = input(f'Enter new model or press Enter to go back: ')
+                if model == '':
+                    continue
+                else:
+                    client.model = model
+                    print(f'Model set to: {client.model}')
+                    continue
 
         if response is not None:
             print(f'{f'Response from {client.model}'.center(MENU_WIDTH, '-')}\n{response}')
