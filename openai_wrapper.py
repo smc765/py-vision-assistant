@@ -66,7 +66,7 @@ class Client:
     
 def main():
     client = Client(max_completion_tokens=100)
-    print(client.create_completion(txt_prompt='What is the capital of France?'))
+    print(client.create_completion(txt_prompt='This is a test prompt. Respond with Hello World'))
 
 if __name__ == '__main__':
     main()

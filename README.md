@@ -24,14 +24,14 @@ System prompts are plain-text instructions that are sent to the AI model alongsi
 
 PyVision Assistant can be compiled into a portable executable with the following steps:  
 
-### Step 1: Install [PyInstaller](https://pyinstaller.org/en/stable/)
+### 1. Install [PyInstaller](https://pyinstaller.org/en/stable/)
 
-### Step 2: Configure Enviornment Variables
+### 2. Configure Enviornment Variables
 
 - Create a text file named `.env` and add the line: `OPENAI_API_KEY=<YOUR_API_KEY>`  
 
-### Step 3: Compile the program with the included [build.bat](https://github.com/smc765/py-vision-assistant/blob/main/build.bat) script or with the command  
+### 3. Compile the program with the included [build.bat](https://github.com/smc765/py-vision-assistant/blob/main/build.bat) script or with the command  
 
     pyinstaller --onefile --console --add-data=".env:." main.py
 
-- The executable will be saved as: `/dist/main.exe`
+- The executable will be saved to: `/dist/main.exe`
