@@ -1,6 +1,6 @@
 # PyVision Assistant
 
-PyVision Assistant is a customizable AI screenshot tool that enables intelligent text extraction and anaylisis of images through the use of user-defined prompts 
+PyVision Assistant is a customizable AI screenshot tool that enables intelligent text extraction and anaylisis of images through the use of user-defined prompts.
 
 ## Setup
     pip install -r requirements.txt
@@ -13,12 +13,16 @@ PyVision Assistant is a customizable AI screenshot tool that enables intelligent
             -p, --system-prompt <PATH_TO_PROMPT>       Set system prompt from file  
             -b, --open-in-browser                      Open responses in browser  
             -m, --model <MODEL>                        Set model (default: gpt-4o)  
-  
+
+## Using Custom Prompts:
+System prompts are plain-text instructions that are sent to the AI model alongside the user's prompt. They're used to define the behavior of the AI Assistant, enabling customization for a wide range of use cases. There are a few ways to set a custom system prompt. By default, the prompt is loaded from `default-prompt.txt` located in the program's directory. Alternatively, the path to a prompt file can be specified using the `--system-prompt <PATH>` argument.
+
 ## Building a Standalone Executable
+PyVision Assistant can be compiled into a portable executable using the following steps:  
 #### Step 1: Install [PyInstaller](https://pyinstaller.org/en/stable/)
 #### Step 3: Configure Enviornment Variables
 - Create a text file named `.env` and add the line: `OPENAI_API_KEY=<YOUR_API_KEY>`
     
 #### Step 2: Compile the program with the included [build.bat](https://github.com/smc765/py-vision-assistant/blob/main/build.bat) script or with the command:
     pyinstaller --onefile --console --add-data=".env:." main.py
-- The executeable will be saved as: `/dist/main.exe`
+- The executable will be saved as: `/dist/main.exe`
