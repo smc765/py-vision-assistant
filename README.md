@@ -22,7 +22,7 @@ System prompts are plain-text instructions that are sent to the AI model alongsi
 
 ## Building a Standalone Executable
 
-PyVision Assistant can be compiled into a portable executable using the following steps:  
+PyVision Assistant can be compiled into a portable executable with the following steps:  
 
 ### Step 1: Install [PyInstaller](https://pyinstaller.org/en/stable/)
 
