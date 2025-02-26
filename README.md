@@ -4,13 +4,13 @@ PyVision Assistant is a customizable AI screenshot tool that uses the OpenAI API
 
 **Example use cases:**  
 
-- Generate LaTeX from images of math formulas
-- AI Math Tutor
-- Summarizing text from a textbook
+- [Generate LaTeX from a screenshot](https://github.com/smc765/py-vision-assistant/blob/main/prompts/latex_ocr.txt)
+- [AI Math Tutor](https://github.com/smc765/py-vision-assistant/blob/main/prompts/math_tutor.txt)
+- [Summarize text](https://github.com/smc765/py-vision-assistant/blob/main/prompts/summarize.txt)
 
 ## Setup
 
-### 1. Install dependencies
+### 1. Install Dependencies
 
     pip install -r requirements.txt
 
@@ -34,7 +34,7 @@ MacOS/Linux:
             -b, --open-in-browser                      Open responses in browser  
             -m, --model <MODEL>                        Set model (default: gpt-4o)  
 
-## Using Custom Prompts
+## Changing the System Prompt
 
 System prompts are plain-text instructions that are sent to the AI model alongside the user's prompt. They're used to define the behavior of the AI Assistant, enabling customization for a wide range of use cases. There are a few ways to set a custom system prompt. By default, the prompt is loaded from `default-prompt.txt` located in the program's directory. Alternatively, the path to a prompt file can be specified using the `--system-prompt <PATH>` argument.
 
