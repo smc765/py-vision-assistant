@@ -32,11 +32,11 @@ def main():
         if sys.argv[i] == '-h' or sys.argv[i] == '--help':
             print(f'''Usage: {os.path.basename(sys.argv[0])} [options]
 Options:
-    -h, --help                    Show this help message and exit
-    -t, --max-completion-tokens   Set max_completion_tokens (default: 1000)
-    -p, --system-prompt           Set system prompt from file
-    -b, --open-in-browser         Open responses in browser
-    -m, --model                   Set model (default: gpt-4o)'''
+    -h, --help                                 Show this help message and exit
+    -t, --max-completion-tokens <NUM_TOKENS>   Set max_completion_tokens (default: 1000)
+    -p, --system-prompt <PATH_TO_PROMPT>       Set system prompt from file
+    -b, --open-in-browser                      Open responses in browser
+    -m, --model <MODEL>                        Set model (default: gpt-4o)'''
             )
             return
         elif sys.argv[i] == '-p' or sys.argv[i] == '--system-prompt':
@@ -148,6 +148,10 @@ Select an option (0-7): '''
                     client.model = model
                     print(f'Model set to: {client.model}')
                     continue
+
+            case _:
+                print('Invalid input')
+                continue
 
         if response is not None:
             print(f'{f'Response from {client.model}'.center(MENU_WIDTH, '-')}\n{response}')
