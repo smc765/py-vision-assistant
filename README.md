@@ -30,7 +30,7 @@ PyVision Assistant can be compiled into a portable executable with the following
 
 - Create a text file named `.env` and add the line: `OPENAI_API_KEY=<YOUR_API_KEY>`  
 
-### Step 3: Compile the program with the included [build.bat](https://github.com/smc765/py-vision-assistant/blob/main/build.bat) script or with the command:
+### Step 3: Compile the program with the included [build.bat](https://github.com/smc765/py-vision-assistant/blob/main/build.bat) script or with the command  
 
     pyinstaller --onefile --console --add-data=".env:." main.py
 
