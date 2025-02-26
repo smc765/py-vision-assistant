@@ -2,6 +2,8 @@
 
 PyVision Assistant is a customizable AI screenshot tool that uses the OpenAI API to intelligently parse and process information from captured images. The AI Assistant can be customized to perform a wide range of tasks by changing the system prompt.
 
+![Alt Text](https://github.com/smc765/py-vision-assistant/blob/main/demo.gif?raw=true)
+
 **Example Prompts:**  
 
 - [Generate LaTeX from a screenshot](https://github.com/smc765/py-vision-assistant/blob/main/prompts/latex_ocr.txt)
