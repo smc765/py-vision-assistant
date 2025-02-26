@@ -1,11 +1,11 @@
 # PyVision Assistant
 
-PyVision Assistant is a customizable AI screenshot tool that enables intelligent text extraction and anaylisis of images through the use of user-defined prompts.
+PyVision Assistant is a customizable AI screenshot tool that uses the OpenAI API to intelligently parse and process information from captured images.
 
 ## Setup
     pip install -r requirements.txt
 
-## Usage:
+## Usage
     python main.py [options]  
         Options:  
             -h, --help                                 Show this help message and exit  
@@ -14,7 +14,7 @@ PyVision Assistant is a customizable AI screenshot tool that enables intelligent
             -b, --open-in-browser                      Open responses in browser  
             -m, --model <MODEL>                        Set model (default: gpt-4o)  
 
-## Using Custom Prompts:
+## Using Custom Prompts
 System prompts are plain-text instructions that are sent to the AI model alongside the user's prompt. They're used to define the behavior of the AI Assistant, enabling customization for a wide range of use cases. There are a few ways to set a custom system prompt. By default, the prompt is loaded from `default-prompt.txt` located in the program's directory. Alternatively, the path to a prompt file can be specified using the `--system-prompt <PATH>` argument.
 
 ## Building a Standalone Executable
