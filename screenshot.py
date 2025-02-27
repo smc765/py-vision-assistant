@@ -53,6 +53,8 @@ class Screenshot:
         self.screenshot = ImageGrab.grab(bbox=(x1, y1, x2, y2))
         self.root.destroy()
 
+# todo: add auto-minimize support for other platforms
+# bugfix: screenshot selection inaccurate on some laptops when using touchpad
 def save_screenshot(filename='out.png'):
     ctypes.windll.user32.ShowWindow( ctypes.windll.kernel32.GetConsoleWindow(), 6 ) # Minimize window
     root = tk.Tk()

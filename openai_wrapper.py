@@ -1,9 +1,8 @@
-from openai import OpenAI
 from dotenv import load_dotenv
 import os
 import base64
 import logging
-from logging.handlers import RotatingFileHandler
+import requests
 
 DEFAULT_MAX_COMPLETION_TOKENS = 1000
 DEFAULT_MODEL = 'gpt-4o'
@@ -15,7 +14,7 @@ console_handler.setLevel(logging.WARNING) # log only warnings and errors to cons
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     handlers=[
-                        RotatingFileHandler('openai.log', maxBytes=1000000, backupCount=1), # log to file with rotation
+                        logging.FileHandler('openai.log', mode='w'), # log to file
                         console_handler
                     ])
 
@@ -28,9 +27,12 @@ class Client:
         self.max_completion_tokens = max_completion_tokens
         self.model = model
         self.sys_prompt = None
+        self.api_url = 'https://api.openai.com/v1'
 
         load_dotenv(dotenv_path=os.path.abspath(os.path.join(os.path.dirname(__file__), '.env'))) # load environment variables from .env
-        self.client = OpenAI()
+        self.api_key = os.getenv('OPENAI_API_KEY')
+        if self.api_key is None:
+            raise ValueError('OPENAI_API_KEY environment variable not set')
 
     def create_completion(self, txt_prompt=None, image_path=None, messages=[]):
         if self.sys_prompt is not None:
@@ -45,25 +47,33 @@ class Client:
         if len(messages) == 0:
             raise ValueError('No prompt provided')
 
-        logger.info(f'Completion: model={self.model}, messages={messages}, max_completion_tokens={self.max_completion_tokens}')
+        logger.info(f'REQUEST model={self.model}, messages={messages}, max_completion_tokens={self.max_completion_tokens}') # log request
         print('waiting for response...')
 
+        endpoint = f'{self.api_url}/chat/completions'
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.api_key}"
+        }
+        payload = {
+            "model": self.model,
+            "messages": messages,
+            "max_completion_tokens": self.max_completion_tokens
+        }
+
         try:
-            response = self.client.chat.completions.create(
-                model=self.model,
-                messages=messages,
-                max_completion_tokens=self.max_completion_tokens
-            )
-        except Exception as e:
-            logger.error(e)
+            response = requests.post(endpoint, headers=headers, json=payload).json()
+        except requests.exceptions.RequestException as e:
+            logger.error(f'Request failed: {e}')
             return None
 
-        if response.choices[0].finish_reason == 'length':
-            logger.warning('The completion was truncated to the maximum token length')
+        logger.info(f'RESPONSE {response}') # log response
 
-        logger.info(f'Response: {response}')
-        return response.choices[0].message.content
-    
+        if (response['choices'])[0]['finish_reason'] != 'stop':
+            logger.warning('Response not finished. Consider increasing max_completion_tokens')
+
+        return ((((response['choices'])[0])['message'])['content'])
+
 def main():
     client = Client(max_completion_tokens=100)
     print(client.create_completion(txt_prompt='This is a test prompt. Respond with Hello World'))
