@@ -5,6 +5,7 @@ import tkinter as tk
 from tkinter import filedialog
 from openai_wrapper import Client
 from screenshot import save_screenshot
+from display import render_html
 
 MENU_WIDTH = 64
 
@@ -55,6 +56,7 @@ Options:
 
     os.system('cls' if os.name == 'nt' else 'clear')
 
+    # main menu loop
     while True:
         choice = input(f'''{'Menu'.center(MENU_WIDTH, '-')}
     1) Take a screenshot          5) Set max_completion_tokens
@@ -153,13 +155,14 @@ Select an option (0-7): '''
                 print('Invalid input')
                 continue
 
-        if response is not None:
-            print(f'{f'Response from {client.model}'.center(MENU_WIDTH, '-')}\n{response}')
+        
+        print(f'{f'Response from {client.model}'.center(MENU_WIDTH, '-')}\n{response}')
 
-            if open_in_browser or choice == '4':
-                with open('response.html', 'w') as f:
-                    f.write(f'<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>\n{response}')
-                webbrowser.open('response.html')
+        if open_in_browser or choice == '4':
+            with open('response.html', 'w') as f:
+                f.write(render_html(response))
+
+            webbrowser.open('response.html')
 
 if __name__ == '__main__':
     try:

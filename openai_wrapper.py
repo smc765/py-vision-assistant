@@ -34,7 +34,9 @@ class Client:
         if self.api_key is None:
             raise ValueError('OPENAI_API_KEY environment variable not set')
 
-    def create_completion(self, txt_prompt=None, image_path=None, messages=[]):
+    def create_completion(self, txt_prompt=None, image_path=None):
+        messages=[]
+        
         if self.sys_prompt is not None:
             messages.append({'role': 'developer', 'content': self.sys_prompt})
 
@@ -65,7 +67,7 @@ class Client:
             response = requests.post(endpoint, headers=headers, json=payload).json()
         except requests.exceptions.RequestException as e:
             logger.error(f'Request failed: {e}')
-            return None
+            return
 
         logger.info(f'RESPONSE {response}') # log response
 
