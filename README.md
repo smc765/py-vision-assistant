@@ -18,14 +18,14 @@ PyVision Assistant is a customizable AI screenshot tool that uses the OpenAI API
 
 ### 2. Set `OPENAI_API_KEY` Environment Variable
 
-Create a text file named `.env` that contains the following:  
+- Create a text file named `.env` that contains the following:  
 
-    OPENAI_API_KEY=your_api_key_here
+      OPENAI_API_KEY=your_api_key_here
 
-Environment Variables can also be set manually with the following commands:  
+- Environment Variables can also be set manually with the following commands:  
 
-- Windows PowerShell: `setx OPENAI_API_KEY "your_api_key_here"`
-- MacOS/Linux: `export OPENAI_API_KEY="your_api_key_here"`
+  - Windows PowerShell: `setx OPENAI_API_KEY "your_api_key_here"`
+  - MacOS/Linux: `export OPENAI_API_KEY="your_api_key_here"`
 
 ## Usage  
 
