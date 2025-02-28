@@ -5,7 +5,7 @@ import tkinter as tk
 from tkinter import filedialog
 from openai_wrapper import Client
 from screenshot import save_screenshot
-from display import render_html
+from display import generate_html
 
 MENU_WIDTH = 64
 
@@ -160,7 +160,7 @@ Select an option (0-7): '''
 
         if open_in_browser or choice == '4':
             with open('response.html', 'w') as f:
-                f.write(render_html(response))
+                f.write(generate_html(response))
 
             webbrowser.open('response.html')
 
