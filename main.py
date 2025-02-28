@@ -12,6 +12,7 @@ def main():
     client = Client() # initialize OpenAI client
     response = None
 
+    # load default prompt
     if os.path.isfile('default_prompt.txt'):
         with open('default_prompt.txt', 'r') as f:
             client.sys_prompt = f.read()

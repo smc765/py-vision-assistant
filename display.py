@@ -54,7 +54,7 @@ def generate_html(response: str):
     response = replace_delimiter(response, '**', '**', '<b>', '</b>')
     response = replace_delimiter(response, '*', '*', '<i>', '</i>')
     response = replace_delimiter(response, '_', '_', '<i>', '</i>')
-    response = replace_delimiter(response, '###### ', '\n', '<h5>', '</h6>')
+    response = replace_delimiter(response, '###### ', '\n', '<h6>', '</h6>')
     response = replace_delimiter(response, '##### ', '\n', '<h5>', '</h5>')
     response = replace_delimiter(response, '#### ', '\n', '<h4>', '</h4>')
     response = replace_delimiter(response, '### ', '\n', '<h3>', '</h3>')
