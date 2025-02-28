@@ -20,6 +20,7 @@ logging.basicConfig(level=logging.INFO,
                     ])
 
 def encode_image(image_path):
+    '''Return base64 encoded image from specified path'''
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode("utf-8")
 
@@ -35,7 +36,9 @@ class Client:
         if self.api_key is None:
             raise ValueError('OPENAI_API_KEY environment variable not set')
 
-    def create_completion(self, txt_prompt=None, image_path=None):
+    def create_completion(self, txt_prompt: str = None, image_path: str = None):
+        '''Create a chat completion and return response content.'''
+
         messages=[]
         
         if self.sys_prompt is not None:
