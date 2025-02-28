@@ -6,6 +6,7 @@ import requests
 
 DEFAULT_MAX_COMPLETION_TOKENS = 1000
 DEFAULT_MODEL = 'gpt-4o'
+API_URL = 'https://api.openai.com/v1'
 
 # logging configuration
 logger = logging.getLogger(__name__)
@@ -23,11 +24,11 @@ def encode_image(image_path):
         return base64.b64encode(image_file.read()).decode("utf-8")
 
 class Client:
-    def __init__(self, max_completion_tokens=DEFAULT_MAX_COMPLETION_TOKENS, model=DEFAULT_MODEL):
+    def __init__(self, max_completion_tokens=DEFAULT_MAX_COMPLETION_TOKENS, model=DEFAULT_MODEL, api_url = API_URL):
         self.max_completion_tokens = max_completion_tokens
         self.model = model
         self.sys_prompt = None
-        self.api_url = 'https://api.openai.com/v1'
+        self.api_url = api_url
 
         load_dotenv(dotenv_path=os.path.abspath(os.path.join(os.path.dirname(__file__), '.env'))) # load environment variables from .env
         self.api_key = os.getenv('OPENAI_API_KEY')
@@ -72,7 +73,7 @@ class Client:
         logger.info(f'RESPONSE {response}') # log response
 
         if (response['choices'])[0]['finish_reason'] != 'stop':
-            logger.warning('Response not finished. Consider increasing max_completion_tokens')
+            logger.warning(f'Response not finished. finish_reason: {(response['choices'])[0]['finish_reason']}')
 
         return ((((response['choices'])[0])['message'])['content'])
 
