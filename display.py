@@ -25,19 +25,19 @@ def replace_delimiter(s: str, start_old: str, end_old: str, start_new: str, end_
             
         s = s[:start] + start_new + s[start + len(start_old):end] + end_new + s[end + len(end_old):]
 
-def replace_delimiter_rec(s, start_old, end_old, start_new, end_new):
-    start = s.find(start_old)
+# def replace_delimiter_rec(s, start_old, end_old, start_new, end_new):
+#     start = s.find(start_old)
 
-    if start == -1:
-        return s
+#     if start == -1:
+#         return s
 
-    end = s.find(end_old, start + len(start_old))
+#     end = s.find(end_old, start + len(start_old))
 
-    if end == -1:
-        return s
+#     if end == -1:
+#         return s
         
-    s = s[:start] + start_new + s[start + len(start_old):end] + end_new + s[end + len(end_old):]
-    return replace_delimiter_rec(s, start_old, end_old, start_new, end_new)
+#     s = s[:start] + start_new + s[start + len(start_old):end] + end_new + s[end + len(end_old):]
+#     return replace_delimiter_rec(s, start_old, end_old, start_new, end_new)
 
 def generate_html(response: str):
     '''

@@ -1,22 +1,11 @@
 import sys
 import os
 import webbrowser
-import tkinter as tk
-from tkinter import filedialog
 from openai_wrapper import Client
-from screenshot import save_screenshot
+from screenshot import save_screenshot, get_clipboard, file_dialog
 from display import generate_html
 
 MENU_WIDTH = 64
-
-# returns path of file chosen or empty string if no file was chosen
-def file_dialog(filetypes=[('All files', '*.*')]):
-    root = tk.Tk()
-    root.withdraw()
-    root.attributes("-topmost", True)
-    fpath = filedialog.askopenfilename(filetypes=filetypes)
-    root.destroy()
-    return fpath
 
 def main():
     print('Initializing OpenAI client...')
@@ -128,15 +117,11 @@ Select an option (0-7): '''
                 continue
 
             case '6': # Send prompt from clipboard
-                root = tk.Tk()
-                root.withdraw()
                 try:
-                    prompt = root.clipboard_get()
-                except tk.TclError:
+                    prompt = get_clipboard()
+                except ValueError:
                     print('Clipboard is empty')
                     continue
-                finally:
-                    root.destroy()
 
                 print(f'Prompt from clipboard: {prompt}')
                 response = client.create_completion(txt_prompt=prompt)
