@@ -14,7 +14,9 @@ PyVision Assistant is a customizable AI screenshot tool that uses the OpenAI API
 
 ### 1. Install Dependencies
 
-    pip install -r requirements.txt
+- Install the required packages with the command:
+
+      pip install -r requirements.txt
 
 ### 2. Set `OPENAI_API_KEY` Environment Variable
 
