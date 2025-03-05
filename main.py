@@ -145,7 +145,7 @@ Select an option (0-7): '''
         print(f'{f'Response from {client.model}'.center(MENU_WIDTH, '-')}\n{response}')
 
         if open_in_browser or choice == '4':
-            with open('response.html', 'w') as f:
+            with open('response.html', 'w', encoding='utf-8') as f:
                 f.write(generate_html(response))
 
             webbrowser.open('response.html')

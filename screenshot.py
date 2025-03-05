@@ -37,6 +37,8 @@ class Screenshot:
         )
         self.label.pack(pady=10)
 
+        # todo: force window focus to capture key events
+
     def on_button_press(self, event):
         # set starting coords
         self.start_x = event.x
