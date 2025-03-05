@@ -13,7 +13,8 @@ class Screenshot:
         self.root.configure(bg='black')
 
         # focus window to capture key events
-        self.root.focus_force()
+        self.root.attributes('-topmost', True)
+        self.root.attributes('-topmost', False)
 
         # selection coordinate variables
         self.start_x = None
