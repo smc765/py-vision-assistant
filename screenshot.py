@@ -8,10 +8,12 @@ class Screenshot:
         self.root = root
 
         # set root widget to fullscreen translucent
-        self.root.attributes("-fullscreen", True)
-        self.root.attributes("-topmost", True)
-        self.root.attributes("-alpha", 0.3)
+        self.root.attributes('-fullscreen', True)
+        self.root.attributes('-alpha', 0.3)
         self.root.configure(bg='black')
+
+        # focus window to capture key events
+        self.root.focus_force()
 
         # selection coordinate variables
         self.start_x = None
@@ -36,8 +38,6 @@ class Screenshot:
             font=("Arial", 16), 
         )
         self.label.pack(pady=10)
-
-        # todo: force window focus to capture key events
 
     def on_button_press(self, event):
         # set starting coords
